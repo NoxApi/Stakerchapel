@@ -1,0 +1,44 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: EvermoonStaker
+    network: chapel
+    source:
+      address: "0xc548CeF196E6DE4C105c5A651393eF6ea7d91C25"
+      abi: EvermoonStaker
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - OwnershipTransferred
+        - PauseReward
+        - SetNewRewardPerBlock
+        - Stake
+        - StartReward
+        - Transfer
+        - Unstake
+      abis:
+        - name: EvermoonStaker
+          file: ./abis/EvermoonStaker.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PauseReward(uint256)
+          handler: handlePauseReward
+        - event: SetNewRewardPerBlock(uint256)
+          handler: handleSetNewRewardPerBlock
+        - event: Stake(address,uint256,uint256)
+          handler: handleStake
+        - event: StartReward(uint256)
+          handler: handleStartReward
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Unstake(address,uint256,uint256)
+          handler: handleUnstake
+      file: ./src/mapping.ts
